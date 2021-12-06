@@ -6,7 +6,7 @@
   "scripts": {
     "build": "",
     "start": "",
-    "dev": "nodemon ."
+    "dev": "nodemon ./index.js"
   },
   "repository": {
     "type": "git",

@@ -1,29 +1,35 @@
+const {DataTypes, UUIDV4} = require("sequelize");
 module.exports = (sequelize, Sequelize) => {
-    const User = sequelize.define("user", {
-        firstname: {
-            type: Sequelize.STRING,
-            allowNull: false
+    return sequelize.define("user", {
+            id: {
+                type: DataTypes.UUID,
+                allowNull: false,
+                primaryKey: true,
+                defaultValue: DataTypes.UUIDV4
+            },
+            firstname: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            lastname: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            email: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                unique: true
+            },
+            password: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
         },
-        lastname: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        email: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        password: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        created_at: {
-            type: Sequelize.DATETIME_LOCAL,
-            allowNull: false
-        },
-        lastlogin_at: {
-            type: Sequelize.DATETIME_LOCAL,
-            allowNull: true
-        }
-    });
-    return User;
+        {
+            scopes: {
+                withoutPassword: {
+                    attributes: {exclude: ['password']},
+                }
+            }
+        });
 };
