@@ -1,3 +1,4 @@
+const authJwt = require("../middleware/authJwt");
 module.exports = app => {
     const users = require("../controllers/user.controller.js");
 
@@ -6,17 +7,17 @@ module.exports = app => {
     // Create a new User
     router.post("/", users.create);
     // Retrieve all Users
-    router.get("/", users.findAll);
+    router.get("/", [authJwt.verifyToken, authJwt.isModeratorOrAdmin], users.findAll);
     // Retrieve a User with id
-    router.get("/:id", users.findOneByPk);
+    router.get("/:id", [authJwt.verifyToken], users.findOneByPk);
     // Retrieve a User with email
-    router.get("/email/:email", users.findOneByEmail);
+    router.get("/email/:email", [authJwt.verifyToken], users.findOneByEmail);
     // Update a User with id
-    router.put("/:id", users.update);
+    router.put("/:id", [authJwt.verifyToken], users.update);
     // Delete a User with id
-    router.delete("/:id", users.delete);
+    router.delete("/:id", [authJwt.verifyToken], users.delete);
     // Delete all Users
-    router.delete("/", users.deleteAll);
+    router.delete("/", [authJwt.verifyToken, authJwt.isAdmin], users.deleteAll);
 
     app.use("/api/users", router)
 };

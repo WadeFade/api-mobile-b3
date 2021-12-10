@@ -86,7 +86,6 @@ exports.findOneByEmail = (req, res) => {
 // Update a User by the id in the request
 exports.update = async (req, res) => {
     const id = req.params.id;
-    console.log(req.body)
     const user = {
         firstname: req.body.firstname?.charAt(0).toUpperCase() + req.body.firstname?.slice(1),
         lastname: req.body.lastname?.toUpperCase(),
@@ -95,7 +94,6 @@ exports.update = async (req, res) => {
     if (req.body.password) {
         user['password'] = await bcrypt.hash(req.body.password, 11)
     }
-    console.log(user)
 
     User.update(user, {
         where: {id: id}
