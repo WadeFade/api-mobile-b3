@@ -74,23 +74,51 @@ isModerator = (req, res, next) => {
 
 isModeratorOrAdmin = (req, res, next) => {
     User.findByPk(req.userId).then(user => {
-        user.getRoles().then(roles => {
-            for (let role of roles) {
-                if (role.name === "moderator") {
-                    next();
-                    return;
+        if (user) {
+            user.getRoles().then(roles => {
+                for (let role of roles) {
+                    if (role.name === "moderator") {
+                        next();
+                        return;
+                    }
+                    if (role.name === "admin") {
+                        next();
+                        return;
+                    }
                 }
-
-                if (role.name === "admin") {
-                    next();
-                    return;
-                }
-            }
-
-            res.status(403).send({
-                message: "Require Moderator or Admin Role!"
+                res.status(403).send({
+                    message: "Require Moderator or Admin Role!"
+                });
             });
-        });
+        } else {
+            throw Error;
+        }
+    }).catch(() => {
+        res.status(400).send({
+            message: "Request problem!"
+        })
+    });
+};
+
+isArtist = (req, res, next) => {
+    User.findByPk(req.userId).then(user => {
+        if (user) {
+            user.getRoles().then(roles => {
+                for (let role of roles) {
+                    if (role.name === "artist") {
+                        next();
+                        return;
+                    }
+                }
+                res.status(403).send({
+                    message: "Require Artist Role!"
+                });
+            });
+        }
+    }).catch(() => {
+        res.status(400).send({
+            message: "Request problem!"
+        })
     });
 };
 
@@ -98,6 +126,7 @@ const authJwt = {
     verifyToken: verifyToken,
     isAdmin: isAdmin,
     isModerator: isModerator,
-    isModeratorOrAdmin: isModeratorOrAdmin
+    isModeratorOrAdmin: isModeratorOrAdmin,
+    isArtist: isArtist
 };
 module.exports = authJwt;

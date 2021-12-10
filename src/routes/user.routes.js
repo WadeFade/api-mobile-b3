@@ -1,9 +1,8 @@
 const authJwt = require("../middleware/authJwt");
+const users = require("../controllers/user.controller.js");
+const router = require("express").Router();
+
 module.exports = app => {
-    const users = require("../controllers/user.controller.js");
-
-    const router = require("express").Router();
-
     // Create a new User
     router.post("/", users.create);
     // Retrieve all Users
