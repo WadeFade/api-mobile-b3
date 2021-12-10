@@ -58,7 +58,7 @@ exports.findOneByPk = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `Cannot find User with id=${id}.`
+                    message: `Cannot find Festival with id=${id}.`
                 })
             }
         })
@@ -117,7 +117,7 @@ exports.delete = (req, res) => {
     });
 };
 
-// Delete all Users from the database.
+// Delete all Festivals from the database.
 exports.deleteAll = (req, res) => {
     Festival.destroy({
         where: {},

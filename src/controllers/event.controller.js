@@ -11,12 +11,13 @@ exports.create = async (req, res) => {
         return;
     }
 
-    // Create a Event
+    // Create an Event
     const event = {
         name: req.body.name,
         description: req.body.description,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
+        festivalId: req.body.festivalId,
     };
 
     // Save Festival in the database
