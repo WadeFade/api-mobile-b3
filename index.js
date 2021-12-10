@@ -5,6 +5,7 @@ const db = require("./src/models");
 const bcrypt = require("bcrypt");
 const Role = db.roles
 const User = db.users
+const Festival = db.festivals
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -41,8 +42,7 @@ async function initial() {
         password: await bcrypt.hash("123", 11),
     };
     User.create(user).then(user => {
-        console.log(user);
-        user.setRoles([3,4]);
+        user.setRoles([3, 4]);
     });
 }
 

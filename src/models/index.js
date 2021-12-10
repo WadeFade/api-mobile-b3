@@ -21,7 +21,10 @@ db.sequelize = sequelize;
 
 db.users = require("./user.model.js")(sequelize, Sequelize);
 db.roles = require("./role.model.js")(sequelize, Sequelize);
+db.festivals = require("./festival.model.js")(sequelize, Sequelize);
+db.events = require("./event.model.js")(sequelize, Sequelize);
 
+// Many-To-Many Relation between User and Role.
 db.roles.belongsToMany(db.users, {
     through: "user_roles",
     foreignKey: "roleId",
@@ -33,6 +36,13 @@ db.users.belongsToMany(db.roles, {
     otherKey: "roleId"
 });
 
-db.ROLES = ["user", "moderator", "artist", "admin"];
+// One-To-Many Relation between Festival and Event (A Festival has many Events)
+db.festivals.hasMany(db.events, {as: "events"});
+db.events.belongsTo(db.festivals, {
+    foreignKey: "festivalId",
+    as: "festival",
+})
+
+db.ROLES = ["user", "artist", "moderator", "admin"];
 
 module.exports = db;

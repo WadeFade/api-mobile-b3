@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
         password: await bcrypt.hash(req.body.password, 11),
     };
 
-    // Save Tutorial in the database
+    // Save User in the database
     User.create(user)
         .then(data => {
             res.send({
@@ -30,7 +30,7 @@ exports.create = async (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Tutorial."
+                    err.message || "Some error occurred while creating the User."
             });
         });
 };
