@@ -49,6 +49,24 @@ exports.findAll = (req, res) => {
         });
 };
 
+// Retrieve all Events by Festival ID from the database.
+exports.findAllByFestivalId = (req, res) => {
+    const festivalId = req.params.festivalId
+
+    Event.findAll({
+        where: {festivalId: festivalId}
+    })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || 'Some error occurred while retrieving events.'
+            });
+        });
+};
+
 // Find a single Event with an id
 exports.findOneByPk = (req, res) => {
     const id = req.params.id;
@@ -66,7 +84,7 @@ exports.findOneByPk = (req, res) => {
 };
 
 
-// Update a Event by the id in the request
+// Update an Event by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
     const event = {

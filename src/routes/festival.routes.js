@@ -4,9 +4,9 @@ const router = require("express").Router();
 
 module.exports = app => {
     // Create a new Festival
-    router.post("/", festivals.create);
+    router.post("/", [authJwt.verifyToken], festivals.create);
     // Retrieve all Festivals
-    router.get("/", [authJwt.verifyToken, authJwt.isModeratorOrAdmin], festivals.findAll);
+    router.get("/", [authJwt.verifyToken], festivals.findAll);
     // Retrieve a Festival with id
     router.get("/:id", [authJwt.verifyToken], festivals.findOneByPk);
     // Update a Festival with id
