@@ -2,11 +2,12 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models");
 const {Error} = require("sequelize");
+const {JsonWebTokenError} = require("jsonwebtoken");
 const User = db.users
 
 verifyToken = (req, res, next) => {
     let authorization = req.headers["authorization"];
-    let token = authorization.replace("Bearer ", "");
+    let token = authorization?.replace("Bearer ", "");
     if (!token) {
         return res.status(403).send({
             message: "No token provided!"
@@ -39,7 +40,9 @@ isAdmin = (req, res, next) => {
                 });
             });
         } else {
-            throw Error;
+            res.status(401).send({
+                message: "Unauthorized!"
+            })
         }
     }).catch(() => {
         res.status(400).send({

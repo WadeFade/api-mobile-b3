@@ -55,18 +55,40 @@ async function initial() {
         user.setRoles([1, 2]);
     });
     Festival.create({
-        name: "Festival de décembre",
-        description: "Venez participer au plus grand festival de décembre.",
+        name: "Festival de Janvier 1",
+        description: "Venez participer au plus grand festival de Janvier 1.",
         startDate: Date.now(),
-        endDate: Date.now(),
+        endDate: Date.now() + 5*24*60*60*1000,
+    });
+    Festival.create({
+        name: "Festival de Janvier 2",
+        description: "Venez participer au grand festival de Janvier 2.",
+        startDate: Date.now() + 5*24*60*60*1000,
+        endDate: Date.now() + 10*24*60*60*1000,
     });
     Event.create({
         name: "Évènement 1",
-        description: "Venez voir le groupe de musique azertyuiop",
+        description: "Venez voir le groupe de musique aaa",
         startDate: Date.now(),
-        endDate: Date.now(),
+        endDate: Date.now() + 1.5*60*60*1000,
     }).then(event => {
         event.setFestival([1]);
+    });
+    Event.create({
+        name: "Évènement 2",
+        description: "Venez voir le groupe de musique bbb",
+        startDate: Date.now() + 1.5*60*60*1000,
+        endDate: Date.now() + 3*60*60*1000,
+    }).then(event => {
+        event.setFestival([1]);
+    });
+    Event.create({
+        name: "Évènement 1",
+        description: "Venez voir le groupe de musique ccc",
+        startDate: Date.now() + 5*24*60*60*1000,
+        endDate: Date.now() + 5*24*60*60*1000 + 1.5*60*60*1000,
+    }).then(event => {
+        event.setFestival([2]);
     });
 }
 

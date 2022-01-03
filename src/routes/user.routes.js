@@ -4,7 +4,7 @@ const router = require("express").Router();
 
 module.exports = app => {
     // Create a new User
-    // router.post("/", users.create);
+    router.post("/",[authJwt.verifyToken, authJwt.isAdmin], users.create);
     // Retrieve all Users
     router.get("/", [authJwt.verifyToken, authJwt.isAdmin], users.findAll);
     // Retrieve a User with id
