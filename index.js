@@ -39,12 +39,14 @@ async function initial() {
     const user = {
         firstname: "Mathis",
         lastname: "GAUTHIER",
+        pseudo: "Fade",
         email: "mathis.gauthier@epsi.fr",
         password: await bcrypt.hash("123", 11),
     };
     const user2 = {
         firstname: "Bréval",
         lastname: "LE FLOCH",
+        pseudo: "LightIn",
         email: "breval.lefloch@epsi.fr",
         password: await bcrypt.hash("123", 11),
     };
@@ -55,19 +57,56 @@ async function initial() {
         user.setRoles([1, 2]);
     });
     Festival.create({
-        name: "Festival de Janvier 1",
+        name: "Festival 1",
         description: "Venez participer au plus grand festival de Janvier 1.",
         startDate: Date.now(),
         endDate: Date.now() + 5*24*60*60*1000,
     });
     Festival.create({
-        name: "Festival de Janvier 2",
+        name: "Festival 2",
         description: "Venez participer au grand festival de Janvier 2.",
+        startDate: Date.now() + 5*24*60*60*1000,
+        endDate: Date.now() + 10*24*60*60*1000,
+    });
+    Festival.create({
+        name: "Festival 3",
+        description: "Venez participer au grand festival de Janvier 3.",
+        startDate: Date.now() + 5*24*60*60*1000,
+        endDate: Date.now() + 10*24*60*60*1000,
+    });
+    Festival.create({
+        name: "Festival 4",
+        description: "Venez participer au grand festival de Janvier 4.",
+        startDate: Date.now() + 5*24*60*60*1000,
+        endDate: Date.now() + 10*24*60*60*1000,
+    });
+    Festival.create({
+        name: "Festival 5",
+        description: "Venez participer au grand festival de Février 1.",
+        startDate: Date.now() + 5*24*60*60*1000,
+        endDate: Date.now() + 10*24*60*60*1000,
+    });
+    Festival.create({
+        name: "Festival 6",
+        description: "Venez participer au grand festival de Février 2.",
+        startDate: Date.now() + 5*24*60*60*1000,
+        endDate: Date.now() + 10*24*60*60*1000,
+    });
+    Festival.create({
+        name: "Festival 7",
+        description: "Venez participer au grand festival de Février 2.",
+        startDate: Date.now() + 5*24*60*60*1000,
+        endDate: Date.now() + 10*24*60*60*1000,
+    });
+    Festival.create({
+        name: "Festival 8",
+        description: "Venez participer au grand festival de Février 4.",
         startDate: Date.now() + 5*24*60*60*1000,
         endDate: Date.now() + 10*24*60*60*1000,
     });
     Event.create({
         name: "Évènement 1",
+        scene: "Scène 1",
         description: "Venez voir le groupe de musique aaa",
         startDate: Date.now(),
         endDate: Date.now() + 1.5*60*60*1000,
@@ -76,6 +115,7 @@ async function initial() {
     });
     Event.create({
         name: "Évènement 2",
+        scene: "Scène 1",
         description: "Venez voir le groupe de musique bbb",
         startDate: Date.now() + 1.5*60*60*1000,
         endDate: Date.now() + 3*60*60*1000,
@@ -84,6 +124,7 @@ async function initial() {
     });
     Event.create({
         name: "Évènement 1",
+        scene: "Scène 1",
         description: "Venez voir le groupe de musique ccc",
         startDate: Date.now() + 5*24*60*60*1000,
         endDate: Date.now() + 5*24*60*60*1000 + 1.5*60*60*1000,

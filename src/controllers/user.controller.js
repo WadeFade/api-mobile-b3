@@ -2,6 +2,8 @@ const db = require("../models");
 const User = db.users;
 const Op = db.Sequelize.Op;
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+const config = require("../config/auth.config");
 
 // Create and Save a new User
 exports.create = async (req, res) => {
@@ -71,17 +73,62 @@ exports.findOneByEmail = (req, res) => {
 
     User.scope('withoutPassword').findOne({
         where: {email: email}
+    }).then(data => {
+        if (data) {
+            res.send(data);
+        } else {
+            res.status(404).send({
+                message: `Cannot find User with email=${email}.`
+            })
+        }
     })
-        .then(data => {
-            if (data) {
-                res.send(data);
-            } else {
-                res.status(404).send({
-                    message: `Cannot find User with email=${email}.`
-                })
-            }
-        })
 };
+
+// Find the current user
+exports.findCurrent = (req, res) => {
+    let authorization = req.headers["authorization"];
+    let token = authorization?.replace("Bearer ", "");
+    console.log(req.userId)
+    if (!token) {
+        return res.status(403).send({
+            message: "No token provided!"
+        });
+    }
+    jwt.verify(token, config.secret, (err, decoded) => {
+        if (err) {
+            return res.status(401).send({
+                message: "Unauthorized!"
+            });
+        }
+        req.userId = decoded.id;
+        console.log(req.userId)
+    });
+    User.scope("withoutPassword").findOne({
+        where: {id: req.userId}
+    }).then(data => {
+        if (data) {
+            var authorities = [];
+            data.getRoles().then(roles => {
+                for (let role of roles) {
+                    authorities.push("ROLE_" + role.name.toUpperCase());
+                }
+                res.status(200).send({
+                    id: data.id,
+                    email: data.email,
+                    firstname: data.firstname,
+                    lastname: data.lastname,
+                    pseudo: data.pseudo,
+                    roles: authorities,
+                });
+            });
+        } else {
+            res.status(404).send({
+                message: `Cannot find current User.`
+            })
+        }
+    })
+}
+
 
 // Update a User by the id in the request
 exports.update = async (req, res) => {

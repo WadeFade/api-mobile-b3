@@ -12,6 +12,11 @@ module.exports = (sequelize, Sequelize) => {
                 allowNull: false,
                 unique: false,
             },
+            scene: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                unique: false,
+            },
             description: {
                 type: DataTypes.TEXT,
                 allowNull: false,
