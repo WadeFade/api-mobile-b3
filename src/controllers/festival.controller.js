@@ -36,7 +36,9 @@ exports.create = async (req, res) => {
 
 // Retrieve all Festivals from the database.
 exports.findAll = (req, res) => {
-    Festival.findAll()
+    Festival.findAll({
+        order: [['startDate', 'ASC']]
+    })
         .then(data => {
             res.send(data);
         })

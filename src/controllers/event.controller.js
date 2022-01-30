@@ -54,7 +54,8 @@ exports.findAllByFestivalId = (req, res) => {
     const festivalId = req.params.festivalId
 
     Event.findAll({
-        where: {festivalId: festivalId}
+        where: {festivalId: festivalId},
+        order: [['startDate', 'ASC']],
     })
         .then(data => {
             res.send(data);
