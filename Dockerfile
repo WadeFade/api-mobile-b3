@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1
 
-FROM node:16.13.2
+FROM node:16.15.0-alpine
 ENV NODE_ENV=production
 
-WORKDIR .
+WORKDIR /festival-app
 
-COPY ["package.json", "package-lock.json*", "./"]
+COPY ["package.json", "yarn.lock", "./"]
 
-RUN npm install --production
+RUN yarn install
 
 COPY . .
 
-CMD [ "node", "index.js"]
+CMD [ "yarn", "start"]
