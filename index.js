@@ -11,16 +11,16 @@ const Event = db.events
 const app = express();
 const PORT = process.env.PORT || 8080;
 const corsOptions = {
-    origin: "http://0.0.0.0:8080"
+    origin: "http://localhost:8080"
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-db.sequelize.sync()
+db.sequelize.sync({force: true})
     .then(async () => {
         console.log('Drop and re-sync db.');
-        // await initial();
+        await initial();
     });
 
 async function initial() {
