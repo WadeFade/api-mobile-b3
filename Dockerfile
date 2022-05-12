@@ -3,7 +3,7 @@
 FROM node:16.15.0-alpine
 ENV NODE_ENV=production
 
-WORKDIR /festival-app
+WORKDIR /app-festival
 
 COPY ["package.json", "yarn.lock", "./"]
 

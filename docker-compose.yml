@@ -1,6 +1,7 @@
 version: '3.9'
 services:
   db:
+    container_name: db
     image: postgres:14.2-alpine
     restart: unless-stopped
     env_file: ./.env
@@ -9,18 +10,26 @@ services:
       - POSTGRES_DB=$POSTGRES_DATABASE
     ports:
       - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
+    networks:
+      - postgres
     volumes:
       - db:/var/lib/postgresql
+
   app:
+    container_name: api
     depends_on:
       - db
-    build: ./app-festival
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     restart: unless-stopped
     env_file: ./.env
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    networks:
+      - postgres
     environment:
-      - DB_HOST=localhost
+      - DB_HOST=db
       - DB_USER=$POSTGRES_USER
       - DB_PASSWORD=$POSTGRES_PASSWORD
       - DB_NAME=$POSTGRES_DATABASE
@@ -28,4 +37,8 @@ services:
     stdin_open: true
     tty: true
 volumes:
-  db:
+  db: {}
+
+networks:
+  postgres:
+    driver: bridge
