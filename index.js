@@ -12,16 +12,16 @@ const Event = db.events
 const app = express();
 const PORT = process.env.PORT || 8080;
 const corsOptions = {
-    origin: "http://localhost:8080"
+    origin: "http://localhost:"+PORT
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-db.sequelize.sync({force: true})
+db.sequelize.sync()
     .then(async () => {
         console.log('Drop and re-sync db.');
-        await initial();
+        // await initial();
     });
 
 async function initial() {
@@ -143,7 +143,7 @@ require("./src/routes/fiche.routes")(app);
 
 // simple route
 app.get("/", (req, res) => {
-    res.json({message: "It works !"});
+    res.status(200).json({message: "It works !"});
 });
 
 // set port, listen for requests
