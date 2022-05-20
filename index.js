@@ -21,7 +21,7 @@ app.use(express.urlencoded({extended: true}));
 db.sequelize.sync()
     .then(async () => {
         console.log('Drop and re-sync db.');
-        await initial();
+        // await initial();
     });
 
 async function initial() {
