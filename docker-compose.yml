@@ -9,16 +9,12 @@ services:
     env_file: ./.env
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
-    networks:
-      - hosts
+    network_mode: host
     environment:
-      - DB_HOST=0.0.0.0
+      - DB_HOST=localhost
       - DB_USER=$POSTGRES_USER
       - DB_PASSWORD=$POSTGRES_PASSWORD
       - DB_NAME=$POSTGRES_DATABASE
       - DB_PORT=$POSTGRES_LOCAL_PORT
     stdin_open: true
     tty: true
-
-networks:
-  hosts:
