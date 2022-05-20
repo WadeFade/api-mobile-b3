@@ -12,7 +12,7 @@ services:
     networks:
       - hosts
     environment:
-      - DB_HOST=hosts
+      - DB_HOST=0.0.0.0
       - DB_USER=$POSTGRES_USER
       - DB_PASSWORD=$POSTGRES_PASSWORD
       - DB_NAME=$POSTGRES_DATABASE
