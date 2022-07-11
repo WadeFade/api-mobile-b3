@@ -4,10 +4,11 @@ const Op = db.Sequelize.Op;
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
+const ROLES = db.ROLES;
 
 // Create and Save a new User
 exports.create = async (req, res) => {
-    if (!req.body.firstname || !req.body.lastname || !req.body.email || !req.body.password) {
+    if (!req.body.pseudo || !req.body.firstname || !req.body.lastname || !req.body.email || !req.body.password) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -16,6 +17,7 @@ exports.create = async (req, res) => {
 
     // Create a user
     const user = {
+        pseudo: req.body.pseudo,
         firstname: req.body.firstname.charAt(0).toUpperCase() + req.body.firstname.slice(1),
         lastname: req.body.lastname.toUpperCase(),
         email: req.body.email.toLowerCase(),
@@ -134,6 +136,7 @@ exports.findCurrent = (req, res) => {
 exports.update = async (req, res) => {
     const id = req.params.id;
     const user = {
+        pseudo: req.body.pseudo,
         firstname: req.body.firstname?.charAt(0).toUpperCase() + req.body.firstname?.slice(1),
         lastname: req.body.lastname?.toUpperCase(),
         email: req.body.email?.toLowerCase(),
@@ -141,6 +144,15 @@ exports.update = async (req, res) => {
     if (req.body.password) {
         user['password'] = await bcrypt.hash(req.body.password, 11)
     }
+
+    // if (req.body.roles) {
+    //     for (let role of req.body.roles) {
+    //         // console.log(role);
+    //         if (!ROLES.includes(role)) {
+    //             throw new Error("This role does not exist");
+    //         }
+    //     }
+    // }
 
     User.update(user, {
         where: {id: id}
@@ -156,7 +168,8 @@ exports.update = async (req, res) => {
         }
     }).catch(err => {
         res.status(500).send({
-            message: `Error updating User with id=${id}.`
+            message: `Error updating User with id=${id}.`,
+            error: err
         });
     });
 };
